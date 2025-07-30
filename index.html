@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVE Security Dashboard | 資安漏洞監控面板</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF5459'><path d='M12 2L3 7l9 5 9-5-9-5zM3 17l9 5 9-5M3 12l9 5 9-5'/></svg>">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="header-left">
+                        <h1 class="dashboard-title">
+                            <span class="title-icon">🛡️</span>
+                            CVE Security Dashboard
+                        </h1>
+                        <p class="dashboard-subtitle">資安漏洞監控面板</p>
+                    </div>
+                    <div class="header-right">
+                        <div class="status-info">
+                            <div class="last-update">
+                                <span class="update-label">Last Update:</span>
+                                <span id="lastUpdateTime">--</span>
+                            </div>
+                            <div class="next-refresh">
+                                <span class="refresh-label">Next Refresh:</span>
+                                <span id="nextRefreshTime">--</span>
+                            </div>
+                        </div>
+                        <button id="refreshBtn" class="btn btn--primary btn--sm">
+                            <span id="refreshIcon">🔄</span>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Controls -->
+        <section class="dashboard-controls">
+            <div class="container">
+                <div class="controls-content">
+                    <div class="search-section">
+                        <div class="search-wrapper">
+                            <input 
+                                type="text" 
+                                id="searchInput" 
+                                class="form-control search-input" 
+                                placeholder="搜尋 CVE、標題或描述..."
+                            >
+                            <span class="search-icon">🔍</span>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <div class="severity-filters">
+                            <button class="filter-btn active" data-severity="all">All</button>
+                            <button class="filter-btn severity-critical" data-severity="critical">Critical</button>
+                            <button class="filter-btn severity-high" data-severity="high">High</button>
+                            <button class="filter-btn severity-medium" data-severity="medium">Medium</button>
+                            <button class="filter-btn severity-low" data-severity="low">Low</button>
+                        </div>
+                        
+                        <div class="category-filters">
+                            <button class="filter-btn active" data-category="all">All Sources</button>
+                            <button class="filter-btn" data-category="cve">CVE</button>
+                            <button class="filter-btn" data-category="zdi">ZDI</button>
+                            <button class="filter-btn" data-category="vendor">Vendor</button>
+                            <button class="filter-btn" data-category="local">Local</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feed Status -->
+        <section class="feed-status">
+            <div class="container">
+                <div class="status-grid" id="feedStatusGrid">
+                    <!-- Feed status indicators will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <div class="container">
+                <!-- Loading State -->
+                <div id="loadingState" class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Loading security feeds...</p>
+                    <div class="loading-progress">
+                        <div class="progress-bar">
+                            <div id="progressFill" class="progress-fill"></div>
+                        </div>
+                        <span id="progressText">0/11 feeds loaded</span>
+                    </div>
+                </div>
+
+                <!-- Error State -->
+                <div id="errorState" class="error-state hidden">
+                    <div class="error-icon">⚠️</div>
+                    <h3>Failed to Load Feeds</h3>
+                    <p>Some RSS feeds could not be loaded. Check your connection and try again.</p>
+                    <button id="retryBtn" class="btn btn--primary">Retry</button>
+                </div>
+
+                <!-- Content Grid -->
+                <div id="contentGrid" class="content-grid hidden">
+                    <!-- RSS entries will be populated by JavaScript -->
+                </div>
+
+                <!-- No Results -->
+                <div id="noResults" class="no-results hidden">
+                    <div class="no-results-icon">🔍</div>
+                    <h3>No Results Found</h3>
+                    <p>Try adjusting your search terms or filters.</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-left">
+                        <p>&copy; 2025 CVE Security Dashboard. Monitoring your security posture.</p>
+                    </div>
+                    <div class="footer-right">
+                        <div class="stats" id="dashboardStats">
+                            <span>Total Entries: <strong id="totalCount">0</strong></span>
+                            <span>Critical: <strong id="criticalCount">0</strong></span>
+                            <span>High: <strong id="highCount">0</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
